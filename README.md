@@ -8,7 +8,7 @@
 * [Swaggo](https://github.com/swaggo)
 
 ### For local development requires installed `wkhtmltopdf`:
-* For macOS: `brew install Caskroom/cask/wkhtmltopdf`
+* For macOS: ` brew install --cask wkhtmltopdf`
 * For Ubuntu: `apt-get install -y wkhtmltopdf`
 
 ### Commands:

@@ -1,0 +1,132 @@
+definitions:
+  handler.HealthResponse:
+    properties:
+      status:
+        $ref: '#/definitions/handler.HealthStatus'
+    type: object
+  handler.HealthStatus:
+    enum:
+    - OK
+    type: string
+    x-enum-varnames:
+    - OkStatus
+  handler.ResponseError:
+    properties:
+      error:
+        type: string
+      id:
+        type: string
+    type: object
+  model.InvoiceRequest:
+    properties:
+      currency:
+        type: string
+      id:
+        type: string
+      items:
+        items:
+          $ref: '#/definitions/model.Item'
+        type: array
+      orderId:
+        type: string
+      paid:
+        $ref: '#/definitions/model.Paid'
+      ship:
+        $ref: '#/definitions/model.Ship'
+      totalAmount:
+        type: number
+      transactionId:
+        type: string
+    type: object
+  model.Item:
+    properties:
+      name:
+        type: string
+      price:
+        type: number
+      quantity:
+        type: integer
+      total:
+        type: number
+    type: object
+  model.Paid:
+    properties:
+      card:
+        properties:
+          name:
+            type: string
+          number:
+            type: string
+        type: object
+      name:
+        type: string
+    type: object
+  model.Ship:
+    properties:
+      address:
+        properties:
+          country:
+            type: string
+          line1:
+            type: string
+          line2:
+            type: string
+        type: object
+      name:
+        type: string
+    type: object
+info:
+  contact: {}
+  title: Pdf generator API
+  version: "1.0"
+paths:
+  /health/liveness:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.HealthResponse'
+      tags:
+      - health
+  /health/readiness:
+    get:
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/handler.HealthResponse'
+      tags:
+      - health
+  /invoices:
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: Request
+        in: body
+        name: data
+        required: true
+        schema:
+          $ref: '#/definitions/model.InvoiceRequest'
+      produces:
+      - application/octet-stream
+      responses:
+        "200":
+          description: OK
+        "400":
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/handler.ResponseError'
+        "500":
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/handler.ResponseError'
+      summary: Generates invoice pdf file
+      tags:
+      - invoice
+swagger: "2.0"

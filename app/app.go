@@ -5,19 +5,20 @@ import (
 	"github.com/illenko/pdf-generator/internal/handler"
 	"github.com/illenko/pdf-generator/internal/logger"
 	"github.com/illenko/pdf-generator/internal/server"
-	"github.com/illenko/pdf-generator/internal/service"
+	"github.com/illenko/pdf-generator/internal/service/core"
+	"github.com/illenko/pdf-generator/internal/service/invoice"
 	"go.uber.org/fx"
 	"go.uber.org/fx/fxevent"
 	"log/slog"
 )
 
-type App struct{}
-
-func (a App) Run() {
+func Run() {
 	fx.New(
 		fx.Provide(
 			logger.New,
-			service.New,
+			invoice.NewService,
+			core.NewTemplateService,
+			core.NewPdfService,
 			handler.NewPdf,
 			handler.NewHealth,
 			server.New,

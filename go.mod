@@ -3,6 +3,7 @@ module github.com/illenko/pdf-generator
 go 1.22.0
 
 require (
+	github.com/SebastiaanKlippert/go-wkhtmltopdf v1.9.2
 	github.com/gin-gonic/gin v1.9.1
 	github.com/google/uuid v1.6.0
 	github.com/swaggo/files v1.0.1

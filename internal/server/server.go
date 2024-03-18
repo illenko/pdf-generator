@@ -11,7 +11,7 @@ import (
 func New(handler handler.InvoiceHandler, healthHandler handler.HealthHandler) *gin.Engine {
 	e := gin.Default()
 
-	e.POST("/pdf", handler.GenerateInvoice)
+	e.POST("/invoices", handler.GenerateInvoice)
 	e.GET("/health/liveness", healthHandler.Liveness)
 	e.GET("/health/readiness", healthHandler.Readiness)
 

@@ -1,0 +1,208 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Pdf generator API",
+        "contact": {},
+        "version": "1.0"
+    },
+    "paths": {
+        "/health/liveness": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "health"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.HealthResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/health/readiness": {
+            "get": {
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "health"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/handler.HealthResponse"
+                        }
+                    }
+                }
+            }
+        },
+        "/invoices": {
+            "post": {
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/octet-stream"
+                ],
+                "tags": [
+                    "invoice"
+                ],
+                "summary": "Generates invoice pdf file",
+                "parameters": [
+                    {
+                        "description": "Request",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.InvoiceRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ResponseError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/handler.ResponseError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "handler.HealthResponse": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "$ref": "#/definitions/handler.HealthStatus"
+                }
+            }
+        },
+        "handler.HealthStatus": {
+            "type": "string",
+            "enum": [
+                "OK"
+            ],
+            "x-enum-varnames": [
+                "OkStatus"
+            ]
+        },
+        "handler.ResponseError": {
+            "type": "object",
+            "properties": {
+                "error": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.InvoiceRequest": {
+            "type": "object",
+            "properties": {
+                "currency": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "string"
+                },
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Item"
+                    }
+                },
+                "orderId": {
+                    "type": "string"
+                },
+                "paid": {
+                    "$ref": "#/definitions/model.Paid"
+                },
+                "ship": {
+                    "$ref": "#/definitions/model.Ship"
+                },
+                "totalAmount": {
+                    "type": "number"
+                },
+                "transactionId": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Item": {
+            "type": "object",
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "total": {
+                    "type": "number"
+                }
+            }
+        },
+        "model.Paid": {
+            "type": "object",
+            "properties": {
+                "card": {
+                    "type": "object",
+                    "properties": {
+                        "name": {
+                            "type": "string"
+                        },
+                        "number": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        },
+        "model.Ship": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "type": "object",
+                    "properties": {
+                        "country": {
+                            "type": "string"
+                        },
+                        "line1": {
+                            "type": "string"
+                        },
+                        "line2": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "name": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

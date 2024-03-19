@@ -1,5 +1,7 @@
 ## Service for PDF files generation.
 
+### Source code for [Medium article](https://medium.com/dev-genius/generate-pdf-from-html-templates-using-go-57a93d02ecc4).
+
 ### Stack:
 
 * [go-wkhtmltopdf](https://github.com/SebastiaanKlippert/go-wkhtmltopdf)
